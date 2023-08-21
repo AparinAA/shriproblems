@@ -1,80 +1,40 @@
 <script>
-    // 4 задача DFS
-    //        1
-    //   2        3
-    // 6   7    4   5
-    const tree = {
-        val: 1,
-        left: {
-            val: 2,
-            left: {
-                val: 6,
-                left: null,
-                right: null,
-            },
-            right: {
-                val: 7,
-                left: null,
-                right: null,
-            },
-        },
-        right: {
-            val: 3,
-            left: {
-                val: 4,
-                left: null,
-                right: null,
-            },
-            right: {
-                val: 5,
-                left: null,
-                right: null,
-            },
-        },
-    };
+    // 6 problems
+    function rightBr(str) {
+        const n = str.length;
+        const q = [];
 
-    function dfs(node, result) {
-        if (!node) {
-            return [];
-        }
+        const br = {
+            "]": "[",
+            ")": "(",
+            "}": "{",
+        };
 
-        result.push(node.val);
-        if (node.left) {
-            dfs(node.left, result);
-        }
-
-        if (node.right) {
-            dfs(node.right, result);
-        }
-
-        return result;
-    }
-
-    console.info(dfs(tree, []));
-
-    //5 BFS
-    function bfs(node) {
-        const result = [];
-        const q = [node];
-
-        while (q.length) {
-            const len = q.length;
-            for (let i = 0; i < len; i++) {
-                const temp = q.shift();
-                result.push(temp.val);
-
-                if (temp.left) {
-                    q.push(temp.left);
+        for (let i = 0; i < n; i++) {
+            const c = str[i];
+            if (c === "]" || c === ")" || c === "}") {
+                const temp = q.pop();
+                if (br[c] !== temp) {
+                    return false;
                 }
-
-                if (temp.right) {
-                    q.push(temp.right);
-                }
+            } else if (c === "(" || c === "[" || c === "{") {
+                q.push(c);
             }
         }
 
-        return result;
+        return !q.length;
     }
 
-    console.info(bfs(tree, []));
+    const tests = [
+        "}{",
+        "{1213[32(asd)d32],[]}",
+        "{sdfd[(fd)]}",
+        "{([{])}}",
+        "[ ({}) {[[()]]} ]",
+        "{",
+        "{}",
+        "",
+    ];
+
+    tests.forEach((t) => console.info(rightBr(t)));
 </script>
