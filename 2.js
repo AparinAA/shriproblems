@@ -1,15 +1,16 @@
 function sortSelect(nums) {
     const n = nums.length;
     for (let i = 0; i < n; i++) {
+        let min = nums[i];
         let indexMin = i;
         for (let j = i; j < n; j++) {
-            if (nums[j] < nums[indexMin]) {
+            if (nums[j] < min) {
                 indexMin = j;
+                min = nums[j];
             }
         }
-        const temp = nums[indexMin];
-        nums[indexMin] = nums[i + 1];
-        nums[i + 1] = temp;
+        nums[indexMin] = nums[i];
+        nums[i] = min;
     }
 
     return nums;
