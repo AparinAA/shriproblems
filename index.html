@@ -1,44 +1,80 @@
 <script>
-    // 1 задача
-    function sortBbl(nums) {
-        const n = nums.length;
-        for (let i = 0; i < n; i++) {
-            for (let j = 0; j < n - i; j++) {
-                if (nums[j] > nums[j + 1]) {
-                    const temp = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = temp;
+    // 4 задача DFS
+    //        1
+    //   2        3
+    // 6   7    4   5
+    const tree = {
+        val: 1,
+        left: {
+            val: 2,
+            left: {
+                val: 6,
+                left: null,
+                right: null,
+            },
+            right: {
+                val: 7,
+                left: null,
+                right: null,
+            },
+        },
+        right: {
+            val: 3,
+            left: {
+                val: 4,
+                left: null,
+                right: null,
+            },
+            right: {
+                val: 5,
+                left: null,
+                right: null,
+            },
+        },
+    };
+
+    function dfs(node, result) {
+        if (!node) {
+            return [];
+        }
+
+        result.push(node.val);
+        if (node.left) {
+            dfs(node.left, result);
+        }
+
+        if (node.right) {
+            dfs(node.right, result);
+        }
+
+        return result;
+    }
+
+    console.info(dfs(tree, []));
+
+    //5 BFS
+    function bfs(node) {
+        const result = [];
+        const q = [node];
+
+        while (q.length) {
+            const len = q.length;
+            for (let i = 0; i < len; i++) {
+                const temp = q.shift();
+                result.push(temp.val);
+
+                if (temp.left) {
+                    q.push(temp.left);
+                }
+
+                if (temp.right) {
+                    q.push(temp.right);
                 }
             }
         }
 
-        return nums;
-    }
-    // 2 задача
-    function sortSelect(nums) {
-        const n = nums.length;
-        for (let i = 0; i < n; i++) {
-            let min = nums[i];
-            let indexMin = i;
-            for (let j = i; j < n; j++) {
-                if (nums[j] < min) {
-                    indexMin = j;
-                    min = nums[j];
-                }
-            }
-            nums[indexMin] = nums[i];
-            nums[i] = min;
-        }
-
-        return nums;
+        return result;
     }
 
-    const tests = [
-        [3, 2, 1, 0, -1],
-        [-1, 0, 2, 3, 4, 5],
-        [1, 1],
-        [-1, 23, 5, 3, 0, -10],
-    ];
-
-    // tests.forEach((t) => console.info(sortSelect(t)));
+    console.info(bfs(tree, []));
 </script>
