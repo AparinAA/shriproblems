@@ -8,14 +8,16 @@ function rightBr(str) {
         "}": "{",
     };
 
+    const right = new Set(Object.values(br));
+
     for (let i = 0; i < n; i++) {
         const c = str[i];
-        if (c === "]" || c === ")" || c === "}") {
+        if (br[c]) {
             const temp = q.pop();
             if (br[c] !== temp) {
                 return false;
             }
-        } else if (c === "(" || c === "[" || c === "{") {
+        } else if (right.has(c)) {
             q.push(c);
         }
     }
@@ -32,6 +34,7 @@ const tests = [
     "{",
     "{}",
     "",
+    "(foo[0][0[0]])",
 ];
 
-tests.forEach((t) => console.info(rightBr(t)));
+tests.forEach((t) => console.info(t, rightBr(t)));
