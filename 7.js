@@ -1,0 +1,54 @@
+function sortMerge(nums, buf, l, r) {
+    if (l === r) {
+        return;
+    }
+
+    const c = Math.floor((l + r) / 2);
+
+    sortMerge(nums, buf, l, c);
+    sortMerge(nums, buf, c + 1, r);
+
+    let commonL = l;
+    let commonR = c + 1;
+    for (let i = l; i < r + 1; i++) {
+        if (commonL < c + 1 && commonR < r + 1) {
+            if (nums[commonL] < nums[commonR]) {
+                buf[i] = nums[commonL];
+                commonL++;
+            } else {
+                buf[i] = nums[commonR];
+                commonR++;
+            }
+        } else {
+            if (commonL < c + 1) {
+                buf[i] = nums[commonL];
+                commonL++;
+            } else {
+                buf[i] = nums[commonR];
+                commonR++;
+            }
+        }
+    }
+
+    for (let i = l; i < r + 1; i++) {
+        nums[i] = buf[i];
+    }
+
+    return;
+}
+
+const tests = [
+    [3, 2, 1, 0, -1],
+    [-1, 0, 2, 3, 4, 5],
+    [1, 1],
+    [-1, 23, 5, 3, 0, -10],
+    [0, 1],
+    [1, 0],
+    [1],
+];
+
+tests.forEach((t) => {
+    const buf = new Array(t.length).fill();
+    sortMerge(t, buf, 0, t.length - 1);
+    console.info(t);
+});

@@ -29,17 +29,20 @@ const tree = {
 };
 
 function dfs(node, result) {
-    if (!node) {
-        return [];
-    }
+    const q = [node];
+    while (q.length) {
+        const temp = q.pop();
 
-    result.push(node.val);
-    if (node.left) {
-        dfs(node.left, result);
-    }
+        result.push(node.val);
 
-    if (node.right) {
-        dfs(node.right, result);
+        console.info(temp);
+        if (temp.left) {
+            q.push(temp.left);
+        }
+
+        if (node.right) {
+            q.push(temp.right);
+        }
     }
 
     return result;
